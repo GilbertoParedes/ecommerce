@@ -8,6 +8,24 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+// impor axios from node_modules
+import axios from 'axios';
+
+// use axios
+Vue.use(axios);
+
+// import Vuetify
+import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css';
+
+// vuetify options
+const opts = {};
+
+//use Vuetify
+Vue.use(Vuetify, opts);
+
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
