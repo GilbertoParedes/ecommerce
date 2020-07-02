@@ -2009,12 +2009,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       email: null,
       password: null,
-      error: null
+      error: null,
+      show: false,
+      rules: {
+        required: function required(value) {
+          return !!value || 'Required.';
+        },
+        min: function min(v) {
+          return v.length >= 8 || 'Min 8 characters';
+        },
+        emailMatch: function emailMatch() {
+          return 'The email and password you entered don\'t match';
+        }
+      }
     };
   },
   methods: {
@@ -2029,7 +2064,8 @@ __webpack_require__.r(__webpack_exports__);
           name: "dashboard"
         });
       })["catch"](function (error) {
-        _this.error = error.response.data;
+        _this.error = error.response.data.message;
+        console.log(_this.error);
       });
     }
   }
@@ -38341,20 +38377,23 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "column is-4 is-offset-4" }, [
-        _c("div", { staticClass: "box" }, [
-          _c("h1", { staticClass: "title" }, [_vm._v("Login")]),
+  return _c(
+    "div",
+    [
+      _c(
+        "v-card",
+        { staticClass: "mx-auto", attrs: { "max-width": "600", outlined: "" } },
+        [
+          _c("h1", [_vm._v("Login")]),
           _vm._v(" "),
           _vm.error
-            ? _c("div", { staticClass: "notification is-danger" }, [
-                _c("p", [_vm._v(_vm._s(_vm.error))])
+            ? _c("v-alert", { attrs: { type: "error" } }, [
+                _c("p", [_vm._v(_vm._s(this.error))])
               ])
             : _vm._e(),
           _vm._v(" "),
           _c(
-            "form",
+            "v-form",
             {
               attrs: { method: "post" },
               on: {
@@ -38365,69 +38404,95 @@ var render = function() {
               }
             },
             [
-              _c("div", { staticClass: "field" }, [
-                _c("div", { staticClass: "control" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.email,
-                        expression: "email"
-                      }
-                    ],
-                    staticClass: "input",
-                    attrs: { type: "email", placeholder: "user@example.com" },
-                    domProps: { value: _vm.email },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.email = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "field" }, [
-                _c("div", { staticClass: "control" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.password,
-                        expression: "password"
-                      }
-                    ],
-                    staticClass: "input",
-                    attrs: { type: "password", autocomplete: "on" },
-                    domProps: { value: _vm.password },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.password = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
               _c(
-                "button",
-                { staticClass: "button is-primary", attrs: { type: "submit" } },
-                [_vm._v("Sign in")]
+                "v-container",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", md: "12" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: { label: "E-mail", required: "" },
+                            model: {
+                              value: _vm.email,
+                              callback: function($$v) {
+                                _vm.email = $$v
+                              },
+                              expression: "email"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "12" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              "append-icon": _vm.show
+                                ? "mdi-eye"
+                                : "mdi-eye-off",
+                              rules: [_vm.rules.required, _vm.rules.min],
+                              type: _vm.show ? "text" : "password",
+                              name: "input-10-1",
+                              label: "Normal with hint text",
+                              hint: "At least 8 characters",
+                              counter: ""
+                            },
+                            on: {
+                              "click:append": function($event) {
+                                _vm.show = !_vm.show
+                              }
+                            },
+                            model: {
+                              value: _vm.password,
+                              callback: function($$v) {
+                                _vm.password = $$v
+                              },
+                              expression: "password"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c(
+                        "v-btn",
+                        { attrs: { type: "submit", color: "#fa76fc" } },
+                        [_vm._v("Sign in")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
               )
-            ]
+            ],
+            1
           )
-        ])
-      ])
-    ])
-  ])
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
