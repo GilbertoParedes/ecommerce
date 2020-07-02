@@ -7,12 +7,9 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
-// impor axios from node_modules
-import axios from 'axios';
-
-// use axios
-Vue.use(axios);
+import router from './router'
+import store from './store'
+import App from './views/App.vue'
 
 // import Vuetify
 import Vuetify from 'vuetify';
@@ -24,7 +21,40 @@ const opts = {};
 //use Vuetify
 Vue.use(Vuetify, opts);
 
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      // this route requires auth, check if logged in
+      // if not, redirect to login page.
+      if (!store.getters.loggedIn) {
+        next({
+          name: 'login',
+        })
+      } else {
+        next()
+      }
+    } else {
+      next() // make sure to always call next()!
+    }
+  })
 
+  /**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
+const app = new Vue({
+    el: '#app',
+    components: { App },
+    router,
+    store
+});
+
+// impor axios from node_modules
+// import axios from 'axios';
+
+// use axios
+//Vue.use(axios);
 
 /**
  * The following block of code may be used to automatically register your
@@ -39,12 +69,3 @@ Vue.use(Vuetify, opts);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-const app = new Vue({
-    el: '#app',
-});
