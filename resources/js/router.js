@@ -10,6 +10,8 @@ import NotFound from './views/NotFound'
 import Login from './views/Login'
 import Logout from './views/Logout'
 import Dashboard from './views/Dashboard'
+// Users
+import Users from './views/User/UserForm'
 
 // Routes
 const router = new VueRouter({
@@ -33,6 +35,14 @@ const router = new VueRouter({
             path: '/dashboard',
             name: 'dashboard',
             component: Dashboard,
+            meta: {
+                requiresAuth: true,
+            }
+        },
+        {
+            path: '/users',
+            name: 'users',
+            component: Users,
             meta: {
                 requiresAuth: true,
             }

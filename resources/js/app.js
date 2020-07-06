@@ -6,17 +6,33 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+window.Vue = require('vue')
 import router from './router'
 import store from './store'
+// import store from './modules/tokenStore'
+// import userStore from './modules/userStore'
+
 import App from './views/App.vue'
 
 // import Vuetify
-import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
+import '@mdi/font/css/materialdesignicons.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+// Add this fo install vuetify-dialog¿
+import "vuetify-dialog/dist/vuetify-dialog.min.css";
+import Vuetify from 'vuetify';
+import VuetifyDialog from "vuetify-dialog";
+
 
 // vuetify options
-const opts = {};
+const opts = {
+
+  icons: {
+    iconfont:  'mdi' || 'md'
+  },
+
+};
+
 
 //use Vuetify
 Vue.use(Vuetify, opts);
@@ -47,7 +63,8 @@ const app = new Vue({
     el: '#app',
     components: { App },
     router,
-    store
+    store,
+    vuetify: new Vuetify(),
 });
 
 // impor axios from node_modules
