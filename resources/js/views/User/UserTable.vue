@@ -29,25 +29,6 @@
       </tbody>
     </template>
   </v-simple-table>
-  
-    <!--<h3 v-if="todos.length > 0">Current({{todos.length}})</h3>
-    <ul class="list-group">
-      <li class="list-group-user" v-for="todo in todos">
-        {{todo.body}}
-        <div class="btn-group">
-          <button type="button" @click="edit(todo)" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-edit"></span> Edit
-          </button>
-          <button type="button" @click="complete(todo)" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-ok-circle"></span> Complete
-          </button>
-          <button type="button" @click="remove(todo)" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-remove-circle"></span> Remove
-          </button>
-        </div>
-      </li>
-    </ul> -->
-    <!--<code>{{ users.users }}</code>-->
   </div>
 </template>
 <script>
@@ -61,7 +42,7 @@
         methods: {
             edit(user){
             this.$store.dispatch('editUser', user)
-            //console.log("click edit" + user)
+            console.log("click edit" + user.id)
             },
             complete(todo){
             this.$store.dispatch('completeTodo', todo)

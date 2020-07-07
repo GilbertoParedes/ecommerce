@@ -205,10 +205,27 @@ const users = {
   },
     EDIT_USER(state, user){
       var users = state.users
+
       state.dialog = true
-      users.splice(users.indexOf(user), 1)
+      state.users = user
+      //users.splice(users.indexOf(user), 1)
       state.users = users
+      state.userId = user.id
       state.name = user.name
+      state.email = user.email
+      state.password = user.password
+
+      // var userEdit = [
+      //   state.name = user.name,
+      //   state.email = user.email,
+      //   state.userId = user.id,
+      // ]
+      
+        // var todos = state.todos
+        // todos.splice(todos.indexOf(todo), 1)
+        // state.todos = todos
+        // state.newTodo = todo.body
+      
       //console.log(state.name);
     },
     REMOVE_TODO(state, todo){
