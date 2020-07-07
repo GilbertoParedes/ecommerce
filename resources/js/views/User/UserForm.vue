@@ -1,20 +1,108 @@
 <template>
   <div>
-    <div id="get-todo" class="container">
-      <input class="form-control"
-        :value="userName"
+      <v-container>
+        <form @submit.prevent="addUser">
+        <v-row>
+            <v-col cols="12" sm="6" md="12">
+              <v-text-field
+                label="Name"
+                name="name"
+                single-line
+                outlined
+                v-model="name = clear.name"
+              ></v-text-field>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12" sm="6" md="12">
+              <v-text-field
+                single-line
+                outlined
+                label="Email"
+                name="email"
+                v-model="email = clear.email"
+              ></v-text-field>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12" sm="6" md="12">
+              <v-text-field
+                single-line
+                outlined
+                label="Password"
+                name="password"
+                v-model="password = clear.password"
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="show1 ? 'text' : 'password'"
+                @click:append="show1 = !show1"
+              ></v-text-field>
+            </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="6" md="12">
+              <button class="btn btn-primary" type="submit">Add Todo</button>
+          </v-col>
+        </v-row>
+      </form>
+
+
+
+   <!-- <v-row>
+        <v-col cols="12" sm="6" md="12">
+          <v-text-field
+            label="Name"
+            single-line
+            outlined
+            v-value="userName"
+            @change="pushUserName"
+          ></v-text-field>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col cols="12" sm="6" md="12">
+          <v-text-field
+            single-line
+            outlined
+            label="Email"
+            v-value="email"
+            @change="pushEmail"
+          ></v-text-field>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col cols="12" sm="6" md="12">
+          <v-text-field
+            single-line
+            outlined
+            label="Password"
+            v-value="password"
+            @change="pushPassword"
+          ></v-text-field>
+        </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" sm="6" md="12">
+          <button class="btn btn-primary" @click="addUser">Add Todo</button>
+      </v-col>
+    </v-row> -->
+  </v-container>
+
+
+    <!--<div id="get-todo" class="container">
+      <change class="form-control"
+        v-value="userName"
         @change="pushUserName"
         placeholder="I need to...">
-      <input class="form-control"
-        :value="email"
+      <change class="form-control"
+        v-value="email"
         @change="pushEmail"
         placeholder="I need to...">
-      <input class="form-control"
-        :value="password"
+      <change class="form-control"
+        v-value="password"
         @change="pushPassword"
         placeholder="I need to...">
       <button class="btn btn-primary" @click="addUser">Add Todo</button>
-    </div>
+    </div>-->
     <UserTable></UserTable>
     <UserEdit></UserEdit>
   </div>
@@ -30,39 +118,31 @@
             UserTable,
             UserEdit
         },
+        data() {
+          return {
+            name: '',
+            email: '',
+            password: '',
+            user: [],
+            show1: false,
+          }
+        },
         methods: {
-            pushUserName(e){
-              this.$store.dispatch('pushUserName', e.target.value)
-            },
-            pushEmail(e){
-              this.$store.dispatch('pushEmail', e.target.value)
-            },
-            pushPassword(e){
-              this.$store.dispatch('pushPassword', e.target.value)
-            },
             addUser(){
-              this.$store.dispatch('addUser')
-              //this.$store.dispatch('clearInputs')
+              this.user = {
+                name: this.name,
+                email: this.email,
+                password: this.password
+              }
+              
+              this.$store.dispatch('addUser', this.user)
+              this.$store.dispatch('clearInputs')
             },
-            addTodo(){
-            this.$store.dispatch('addTodo')
-            this.$store.dispatch('clearTodo')
-            }
         },
         computed: {
-            newTodo(){
-              return this.$store.getters.newTodo
+            clear(){
+              return this.$store.getters.clearInputs
             },
-            userName(){
-              return this.$store.getters.userName
-            },
-            email(){
-              return this.$store.getters.email
-            },
-            password(){
-              return this.$store.getters.password
-            }
-
-        }
+        },
     }
 </script>

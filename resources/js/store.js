@@ -147,49 +147,69 @@ const users = {
     token: localStorage.getItem('access_token') || null,
     todos: [],
     users: [],
-    userName: '',
+    clear:[],
+    userId: null,
+    name: '',
     email: '',
     password: '',
     newTodo: '',
     dialog: null
   },
   mutations: {
-  PUSH_USER_NAME(state, user){
-    state.userName = user
-  },
-  PUSH_EMAIL(state, email){
-    state.email = email
-  },
-  PUSH_PASSWORD(state, password){
-    state.password = password
-  },
   GET_USERS(state, user){
     state.users = user
   },
   GET_TODO(state, todo){
     state.newTodo =  todo
   },
-  ADD_USER(state){
-    state.users.push({
-      name: state.userName,
+  ADD_USER(state, user){
+    state.name = user.name
+    state.email = user.email
+    state.password = user.password
+    var newUser = {}
+    newUser['name'] = state.name;
+    newUser['email'] = state.email;
+    newUser['password'] = state.password;
+
+    return new Promise((resolve, reject) => {
+      axios.post('/api/auth/users', newUser, {
+          headers: { Authorization: "Bearer " + localStorage.getItem('access_token') || null },
+        })
+        .then(response => {
+          console.log(response.data);
+          
+          state.users.push({
+            name: response.data.name,
+            email: response.data.email,
+            password: response.data.password,
+            id: response.data.userId
+            //completed: false
+          })
+
+          resolve(response)
+        })
+        .catch(error => {
+          console.log(localStorage.getItem('access_token') || null)
+          console.log(error)
+        
+          reject(error)
+        })
+    })
+
+    /*state.users.push({
+      name: state.name,
       email: state.email,
       password: state.password
       //completed: false
-    })
-  },
-  ADD_TODO(state){
-    state.todos.push({
-      body: state.newTodo,
-      completed: false
-    })
+    })*/
   },
     EDIT_USER(state, user){
       var users = state.users
       state.dialog = true
       users.splice(users.indexOf(user), 1)
       state.users = users
-      state.userName = user.name
-      //console.log(state.userName);
+      state.name = user.name
+      //console.log(state.name);
     },
     REMOVE_TODO(state, todo){
       var todos = state.todos
@@ -199,23 +219,19 @@ const users = {
     COMPLETE_TODO(state, todo){
       todo.completed = !todo.completed
     },
-    CLEAR_TODO(state){
-      state.newTodo = ''
+    CLEAR_INPUTS(state){
+      var clearInputs = [
+        state.name = '',
+        state.email= '',
+        state.password = ''
+      ]
+      state.clear = clearInputs
     },
     CLOSE_DIALOG(state){
       state.dialog = false
     }
   },
   actions: {
-    pushUserName({commit}, user){
-      commit('PUSH_USER_NAME', user)
-    },
-    pushEmail({commit}, email){
-      commit('PUSH_EMAIL', email)
-    },
-    pushPassword({commit}, password){
-      commit('PUSH_PASSWORD', password)
-    },
     getUsers({commit}){
       return new Promise((resolve, reject) => {
         axios.get('/api/auth/users', {
@@ -240,8 +256,8 @@ const users = {
     getTodo({commit}, todo){
       commit('GET_TODO', todo)
     },
-    addUser({commit}){
-      commit('ADD_USER')
+    addUser({commit}, user){
+      commit('ADD_USER', user)
     },
     addTodo({commit}){
       commit('ADD_TODO')
@@ -255,8 +271,8 @@ const users = {
     completeTodo({commit}, todo){
       commit('COMPLETE_TODO', todo)
     },
-    clearTodo({commit}){
-      commit('CLEAR_TODO')
+    clearInputs({commit}){
+      commit('CLEAR_INPUTS')
     },
     closeDialog({commit}){
       commit('CLOSE_DIALOG')
@@ -264,9 +280,7 @@ const users = {
     
   },
   getters: {
-    newTodo: state => state.newTodo,
-    userName: state => state.userName,
-    email: state => state.email,
+    clearInputs: state => state.clear,
     password: state => state.password,
     todos: state => state.todos.filter((todo) => {return !todo.completed}),
     completedTodos: state => state.todos.filter((todo) => {return todo.completed}),
