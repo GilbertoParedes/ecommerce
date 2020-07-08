@@ -207,7 +207,7 @@ const users = {
       var users = state.users
 
       state.dialog = true
-      state.users = user
+      //state.users = user
       //users.splice(users.indexOf(user), 1)
       state.users = users
       state.userId = user.id
@@ -233,8 +233,39 @@ const users = {
       todos.splice(todos.indexOf(todo), 1)
       
     },
-    COMPLETE_TODO(state, todo){
-      todo.completed = !todo.completed
+    UPDATE_USER(state, user){
+      return new Promise((resolve, reject) => {
+        axios.put('/api/auth/users/' + user.id, user, {
+            headers: { Authorization: "Bearer " + localStorage.getItem('access_token') || null },
+          })
+          .then(response => {
+            var user = response.data
+            
+            //console.log(user);
+            state.users.push({
+              name: user.name,
+              email:  user.email,
+              password: user.password,
+            })
+            //commit("GET_USERS", response.data)
+            // state.users.push({
+            //   name: response.data.name,
+            //   email: response.data.email,
+            //   password: response.data.password,
+            //   id: response.data.userId
+            //   //completed: false
+            // })
+  
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(localStorage.getItem('access_token') || null)
+            console.log(error)
+          
+            reject(error)
+          })
+      })
+      //todo.completed = !todo.completed
     },
     CLEAR_INPUTS(state){
       var clearInputs = [
@@ -270,6 +301,11 @@ const users = {
           })
       })
     },
+    updateUser({commit}, user){
+      commit('UPDATE_USER', user)
+    },
+
+
     getTodo({commit}, todo){
       commit('GET_TODO', todo)
     },
@@ -285,9 +321,7 @@ const users = {
     removeTodo({commit}, todo){
       commit('REMOVE_TODO', todo)
     },
-    completeTodo({commit}, todo){
-      commit('COMPLETE_TODO', todo)
-    },
+    
     clearInputs({commit}){
       commit('CLEAR_INPUTS')
     },
