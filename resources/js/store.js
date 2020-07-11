@@ -145,10 +145,10 @@ const endPoints = {
 const users = {
   state: {
     token: localStorage.getItem('access_token') || null,
-    todos: [],
     users: [],
+    user: [],
     clear:[],
-    userId: null,
+    id: '',
     name: '',
     email: '',
     password: '',
@@ -173,7 +173,7 @@ const users = {
 
     return new Promise((resolve, reject) => {
       axios.post('/api/auth/users', newUser, {
-          headers: { Authorization: "Bearer " + localStorage.getItem('access_token') || null },
+          headers: { Authorization: "Bearer " + state.token },
         })
         .then(response => {
           console.log(response.data);
@@ -182,7 +182,7 @@ const users = {
             name: response.data.name,
             email: response.data.email,
             password: response.data.password,
-            id: response.data.userId
+            id: response.data.id
             //completed: false
           })
 
@@ -204,56 +204,56 @@ const users = {
     })*/
   },
     EDIT_USER(state, user){
-      var users = state.users
+      //var users = state.users
 
       state.dialog = true
-      //state.users = user
-      //users.splice(users.indexOf(user), 1)
-      state.users = users
-      state.userId = user.id
-      state.name = user.name
-      state.email = user.email
-      state.password = user.password
-
-      // var userEdit = [
-      //   state.name = user.name,
-      //   state.email = user.email,
-      //   state.userId = user.id,
-      // ]
-      
-        // var todos = state.todos
-        // todos.splice(todos.indexOf(todo), 1)
-        // state.todos = todos
-        // state.newTodo = todo.body
-      
-      //console.log(state.name);
+      state.user = user
+      // state.id = user.id
+      // state.name = user.name
+      // state.email = user.email
+      // state.password = user.password
     },
-    REMOVE_TODO(state, todo){
-      var todos = state.todos
-      todos.splice(todos.indexOf(todo), 1)
-      
+    DELETE_USER(state, user){
+      return new Promise((resolve, reject) => {
+        axios.delete('/api/auth/users/' + user.id,{
+            headers: { Authorization: "Bearer " + state.token },
+          })
+          .then(response => {
+            console.log(response.data)
+            var user = response.data
+            var users = state.users
+
+            users.splice(users.indexOf(user), 1)
+            Vue.$toast.success('User Delete.', {
+              // optional options Object
+            })
+  
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(localStorage.getItem('access_token') || null)
+            console.log(error)
+          
+            reject(error)
+          })
+      })
     },
     UPDATE_USER(state, user){
       return new Promise((resolve, reject) => {
         axios.put('/api/auth/users/' + user.id, user, {
-            headers: { Authorization: "Bearer " + localStorage.getItem('access_token') || null },
+            headers: { Authorization: "Bearer " + state.token },
           })
           .then(response => {
-            var user = response.data
-            
-            //console.log(user);
-            state.users.push({
-              name: user.name,
-              email:  user.email,
-              password: user.password,
+            var userResponse = JSON.stringify(response.data)
+            Vue.$toast.success('User Update.', {
+              position: 'top-right',
+              duration: 5000
             })
-            //commit("GET_USERS", response.data)
+            console.log('Respuesta de usuario: ' + userResponse)
             // state.users.push({
-            //   name: response.data.name,
-            //   email: response.data.email,
-            //   password: response.data.password,
-            //   id: response.data.userId
-            //   //completed: false
+            //   name: user.name,
+            //   email:  user.email,
+            //   password: user.password,
             // })
   
             resolve(response)
@@ -293,10 +293,7 @@ const users = {
             resolve(response)
           })
           .catch(error => {
-            console.log(localStorage.getItem('access_token') || null)
-            console.log(error)
-            
-
+           
             reject(error)
           })
       })
@@ -304,7 +301,9 @@ const users = {
     updateUser({commit}, user){
       commit('UPDATE_USER', user)
     },
-
+    deleteUser({commit}, user){
+      commit('DELETE_USER', user)
+    },
 
     getTodo({commit}, todo){
       commit('GET_TODO', todo)
@@ -318,9 +317,7 @@ const users = {
     editUser({commit}, user){
       commit('EDIT_USER', user)
     },
-    removeTodo({commit}, todo){
-      commit('REMOVE_TODO', todo)
-    },
+    
     
     clearInputs({commit}){
       commit('CLEAR_INPUTS')
@@ -335,7 +332,8 @@ const users = {
     password: state => state.password,
     todos: state => state.todos.filter((todo) => {return !todo.completed}),
     completedTodos: state => state.todos.filter((todo) => {return todo.completed}),
-    activeDialog: state => state.dialog
+    activeDialog: state => state.dialog,
+    users: state => state.user
   }
 }
 

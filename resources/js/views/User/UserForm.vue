@@ -40,7 +40,8 @@
         </v-row>
         <v-row>
           <v-col cols="12" sm="6" md="12">
-              <button class="btn btn-primary" type="submit">Add Todo</button>
+              <v-btn color="blue" block type="submit" >Add User</v-btn>
+              <!-- <button class="btn btn-primary block" type="submit">Add Todo</button> -->
           </v-col>
         </v-row>
       </form>

@@ -21,7 +21,7 @@
             </v-btn>
           </td>
           <td>
-            <v-btn class="mx-1" fab small color="#ff0000">
+            <v-btn class="mx-1" @click="deleteUser(user)" fab small color="#ff0000">
               <v-icon color="#ffffff" dark>mdi-trash-can</v-icon>
             </v-btn>
           </td>
@@ -47,9 +47,10 @@
             complete(todo){
             this.$store.dispatch('completeTodo', todo)
             },
-            remove(todo){
-            this.$store.dispatch('removeTodo', todo)
-            },
+            deleteUser(user){
+              console.log(user)
+              this.$store.dispatch('deleteUser', user)
+            }
         },
         computed: 
         {

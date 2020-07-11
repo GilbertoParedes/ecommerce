@@ -10,6 +10,8 @@ import NotFound from './views/NotFound'
 import Login from './views/Login'
 import Logout from './views/Logout'
 import Dashboard from './views/Dashboard'
+// Import views Frontend
+import Home from './views/frontend/Home.vue'
 // Users
 import Users from './views/User/UserForm'
 
@@ -18,6 +20,11 @@ const router = new VueRouter({
     mode: 'history',
     linkActiveClass: 'is-active',
     routes: [
+        {
+            path: '/',
+            name: 'home',
+            component: Home,
+        },
         {
             path: '/login',
             name: 'login',

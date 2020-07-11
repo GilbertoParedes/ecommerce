@@ -9,8 +9,6 @@ require('./bootstrap');
 window.Vue = require('vue')
 import router from './router'
 import store from './store'
-// import store from './modules/tokenStore'
-// import userStore from './modules/userStore'
 
 import App from './views/App.vue'
 
@@ -21,7 +19,10 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 // Add this fo install vuetify-dialog¿
 import "vuetify-dialog/dist/vuetify-dialog.min.css";
 import Vuetify from 'vuetify';
-import VuetifyDialog from "vuetify-dialog";
+import VueToast from 'vue-toast-notification';
+// Import one of available themes
+import 'vue-toast-notification/dist/theme-default.css';
+//import 'vue-toast-notification/dist/theme-sugar.css';
 
 
 // vuetify options
@@ -36,6 +37,8 @@ const opts = {
 
 //use Vuetify
 Vue.use(Vuetify, opts);
+Vue.use(VueToast);
+
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {

@@ -4,7 +4,6 @@
       <template v-slot:activator="{ on, attrs }">
        
       </template>
-      <v-form @submit.prevent="updateUser()">
       <v-card>
         <v-card-title>
           <span class="headline">User Profile</span>
@@ -27,10 +26,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="closeDialog()">Close</v-btn>
-          <v-btn color="blue darken-1" type="submit" >Save</v-btn>
+          <v-btn color="blue darken-1" @click="updateUser(users)" >Save</v-btn>
         </v-card-actions>
       </v-card>
-      </v-form>
+      <code>{{ users }}</code>
     </v-dialog>
   </v-row>
 </template>
@@ -40,31 +39,34 @@
     data () {
         return {
             dialog: false,
-            user: [],
+            //user: [],
         }
     },
     methods: {
           closeDialog(){
             this.$store.dispatch('closeDialog')
           },
-          updateUser() {
-            this.user = {
-              id: this.users.userId,
-              name: this.users.name,
-              email: this.users.email,
-              password: this.users.password
-            }
-            console.log('user update ' + JSON.stringify(this.user));
-            this.$store.dispatch('updateUser', this.user)
-          }
+          updateUser(users) {
+            // this.user = {
+            //   id: this.users.id,
+            //   name: this.users.name,
+            //   email: this.users.email,
+            //   password: this.users.password
+            // }
+            console.log('user update ' + JSON.stringify(this.users));
+            this.$store.dispatch('updateUser', this.users)
+          },
     },
     computed: {
         active(){
             return this.$store.getters.activeDialog
         },
         users(){
-          return this.$store.state.users
+          return this.$store.getters.users
         }
+        // users(){
+        //   return this.$store.state.user
+        // },
     }
   }
 </script>

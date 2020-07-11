@@ -19,6 +19,7 @@ class CreateProdutcsTable extends Migration
             $table->string('slug');
             $table->string('description');
             $table->float('price', 8, 2);
+            $table->string('image');
             $table->boolean('status');
             $table->timestamps();
         });
