@@ -337,10 +337,70 @@ const users = {
   }
 }
 
+const  produtcs = {
+    state: {
+      produtcs: [],
+      produtc: [],
+    },
+    mutations: {
+      GET_PRODUTC(state, produtcs){
+        state.produtcs = produtcs
+      },
+      SHOW_PRODUTC(state, produtc){
+        state.produtc = produtc
+        
+      }
+    },
+    actions: {
+      getProdutcs({commit}){
+        return new Promise((resolve, reject) => {
+          axios.get('/products', {
+              
+            })
+            .then(response => {
+              console.log(response);
+              var produtcs = response.data
+              commit('GET_PRODUTC', produtcs)
+  
+              resolve(response)
+            })
+            .catch(error => {
+             
+              reject(error)
+            })
+        })
+      },
+      showProdutc({commit}, id){
+          return new Promise((resolve, reject) => {
+            axios.get('/products/' + id, {
+                
+              })
+              .then(response => {
+                console.log(response);
+                var produtc = response.data
+                console.log(JSON.stringify(produtc))
+                commit('SHOW_PRODUTC', produtc)
+    
+                resolve(response)
+              })
+              .catch(error => {
+               
+                reject(error)
+              })
+          })
+      }
+    },
+    getters: {
+
+    }
+
+}
+
 const store = new Vuex.Store({
     modules: {
       token: token,
       users: users,
+      produtcs: produtcs,
     }
   })
   

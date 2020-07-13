@@ -5,6 +5,8 @@ import VueRouter from 'vue-router'
 // use router in vue
 Vue.use(VueRouter)
 
+// Fontend Pages
+import ShowPodutc from './views/frontend/Produtc'
 // Pages
 import NotFound from './views/NotFound'
 import Login from './views/Login'
@@ -20,6 +22,11 @@ const router = new VueRouter({
     mode: 'history',
     linkActiveClass: 'is-active',
     routes: [
+        {
+            path: '/shop/produtc/:id/:name',
+            name: 'show-produtc',
+            component: ShowPodutc,
+        },
         {
             path: '/',
             name: 'home',
