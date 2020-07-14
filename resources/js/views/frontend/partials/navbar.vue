@@ -17,11 +17,12 @@
           <img :src="item.image" alt="" width="100">
       </router-link>
       
-      <v-btn v-else class="btn-nav-items" :to="item.url" flat>{{ item.title }}</v-btn>
+      <v-btn v-else color="#ffffff" :to="item.url">{{ item.title }}</v-btn>
       </v-toolbar-items>
     </v-col>
 
     <v-col cols="2" class="d-flex justify-end">
+      <v-icon color="#000000" dark>mdi-cart</v-icon>
       <v-btn to="/login" color="#448669" flat>MEMBERS LOGIN</v-btn>
     </v-col>
     

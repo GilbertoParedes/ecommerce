@@ -5,9 +5,7 @@
 .main-navbar{
     background-color: #505050;
 }
-.item-btn{
-    margin: 40px 10px 10px 40px
-}
+
 
 .center-menu{
     margin: auto;
@@ -17,9 +15,9 @@
     box-shadow: none !important;
 }
 
-.btn-nav-items{
-    background-color: #ffffff !important;
-}
+.v-btn:hover:before {
+    background-color: transparent !important;
+  }
 .img-description{
     background-color: #448669;
     height: 50px;
@@ -29,4 +27,19 @@
 .span-display-offer {
     color: #fff;
     font-size: 30px;
+}
+
+.v-btn:before {
+    border-radius: inherit;
+    bottom: 0;
+    color: inherit;
+    content: "";
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity .2s cubic-bezier(.4,0,.6,1);
+    background-color: transparent !important;
 }

@@ -341,6 +341,8 @@ const  produtcs = {
     state: {
       produtcs: [],
       produtc: [],
+      addCart: [],
+      produtcCart: []
     },
     mutations: {
       GET_PRODUTC(state, produtcs){
@@ -348,6 +350,21 @@ const  produtcs = {
       },
       SHOW_PRODUTC(state, produtc){
         state.produtc = produtc
+        
+      },
+      ADD_PRODUTC_CART(state, produtc){
+        state.produtcCart.push({
+           name: produtc.name,
+           price: produtc.price
+        })
+        
+        localStorage.setItem('card_produtc', JSON.stringify(state.produtcCart))
+
+        // var saveCart = localStorage.getItem('card_produtc');
+
+        state.addCart = localStorage.getItem('card_produtc')
+
+        
         
       }
     },
@@ -388,10 +405,13 @@ const  produtcs = {
                 reject(error)
               })
           })
+      },
+      addProdutcCart({commit}, produtc){
+          commit('ADD_PRODUTC_CART', produtc)
       }
     },
     getters: {
-
+      produtcCart: state => state.addCart,
     }
 
 }

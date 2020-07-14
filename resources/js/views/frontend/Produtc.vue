@@ -11,7 +11,7 @@
                 <v-col cols="12" xs="12" sm="6" md="4">
                     <v-img
                     :src="produtc.image"
-                    height="194"
+                    height="500"
                     position
                     ></v-img>
                 </v-col>
@@ -67,8 +67,6 @@
                 </v-col>
             </v-row>
         </v-container>
-        
-        <code>{{produtc}}</code>
     </div>
 </template>
 

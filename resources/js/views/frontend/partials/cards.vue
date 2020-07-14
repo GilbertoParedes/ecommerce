@@ -32,7 +32,7 @@
                             solo
                         ></v-select>
                         <span class="span-price">$ {{ produtc.price }} USD</span>
-                        <v-btn color="#448669" class="add-cart" ><span>ADD TO CART</span></v-btn>
+                        <v-btn color="#448669" class="add-cart" @click="addProdutcCart(produtc)"><span>ADD TO CART</span></v-btn>
                         <v-btn flat class="learn-more" :to="{name: 'show-produtc', params:{id:produtc.id, name:produtc.slug}}"><span>LEARN MORE</span></v-btn>
                     </v-card-text>
 
@@ -42,7 +42,7 @@
                 </v-card>
             </v-col>
         </v-row>
-        <code>{{ produtcs }}</code>
+        <pre>{{ cart }}</pre>
         </v-container>
     </div>
 </template>
@@ -54,14 +54,18 @@ export default {
       items: ['One-time purchase', 'Monthly subscription - Monthly'],
     }),
     methods: {
-        // getProdutcs(){
-            
-        // }
+        addProdutcCart(produtc){
+            console.log('add produtc' + produtc)
+             this.$store.dispatch('addProdutcCart', produtc)
+        }
     },
     computed:{
         produtcs(){
             return this.$store.state.produtcs
-        }
+        },
+        cart(){
+            return this.$store.getters.produtcCart
+        },
     },
     created(){
         this.$store.dispatch('getProdutcs') // dispatch loading
