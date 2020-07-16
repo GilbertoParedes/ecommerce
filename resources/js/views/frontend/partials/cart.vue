@@ -1,44 +1,55 @@
 <template>
 <div> 
-    <div class="navbar-item has-dropdown is-hoverable">
+    <!-- <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link" href="">
             Cart ({{ cartCount }})
-        </a>
+        </a> -->
 
-        <div v-if="cart.length > 0" class="navbar-dropdown is-boxed is-right">
-            <a v-for="item in cart"
-                :key="item.id"
-                class="navbar-item"
-                href=""
-            >
-                <!--- Remove --->
-                <span class="removeBtn"
-                    title="Remove from cart"
-                    @click.prevent="removeFromCart(item)">X</span>
-                <!--- End Remove --->
 
-                {{ item.title }} x{{ item.quantity }} - ${{ item.totalPrice }}
-            </a>
+    <v-list subheader>  
+      <v-subheader>Cart Shop</v-subheader>
 
-            <a class="navbar-item" href="">
-                Total: ${{ totalPrice }}
-            </a>
+      <v-list-item
+        v-for="item in cart"
+        :key="item.id"
+        
+      >
+        <v-list-item-avatar>
+          <v-img :src="item.image"></v-img>
+        </v-list-item-avatar>
 
-            <hr class="navbar-divider">
+        <v-list-item-content>
+          <v-list-item-title v-text="item.name"></v-list-item-title>
+        </v-list-item-content>
 
-            <a class="navbar-item" href="">
-                Checkout
-            </a>
+        <v-list-item-content>
+          <v-list-item-title v-text="item.quantity"></v-list-item-title>
+        </v-list-item-content>
+
+        <v-list-item-content>
+          <v-list-item-title>X</v-list-item-title>
+        </v-list-item-content>
+
+        <v-list-item-content>
+          <v-list-item-title v-text="item.totalPrice"></v-list-item-title>
+        </v-list-item-content>
+
+        <v-list-item-icon>
+        <v-btn class="mx-1" @click.prevent="removeFromCart(item)" fab small>
+          <v-icon color="#ff0000">mdi-trash-can</v-icon>
+        </v-btn>
+        </v-list-item-icon>
+      </v-list-item>
+
+      <template>
+        <div class="pa-2">
+          <v-btn block>Total: ${{ totalPrice }}</v-btn>
         </div>
+      </template>
 
-        <div v-else class="navbar-dropdown is-boxed is-right">
-            <a class="navbar-item" href="">
-                Cart is empty
-            </a>
-        </div>
-    </div>
-    <code>{{ cartCount }}</code>
-    <pre>{{ cart }}</pre>
+    </v-list>
+    <!-- <pre>{{cart}}</pre> -->
+        
 </div>
 </template>
 
@@ -48,9 +59,6 @@ export default {
         removeFromCart(item) {
             this.$store.dispatch('removeFromCart', item);
         },
-        saveCart(item){
-            this.$store.dispatch('saveCart')
-        }
     },
     computed: {
         cart(){

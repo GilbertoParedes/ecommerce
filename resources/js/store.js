@@ -369,6 +369,9 @@ const  produtcs = {
         }
 
         state.cartCount++
+        
+        this.commit("SAVE_CART")
+    
         //console.log(item.name)
       },
       REMOVE_CART(state, item){
@@ -379,6 +382,8 @@ const  produtcs = {
           state.cartCount -= product.quantity
           state.cart.splice(index, 1)
         }
+
+        this.commit("SAVE_CART")
       },
       GET_PRODUTC(state, produtcs){
         state.produtcs = produtcs

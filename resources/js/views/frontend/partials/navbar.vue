@@ -38,7 +38,7 @@
       v-model="openCart"
       temporary
       absolute
-      width = "300"
+      width = "500"
       
     >
     
