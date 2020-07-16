@@ -42,7 +42,6 @@
                 </v-card>
             </v-col>
         </v-row>
-        <pre>{{ cart }}</pre>
         </v-container>
     </div>
 </template>
@@ -55,16 +54,13 @@ export default {
     }),
     methods: {
         addProdutcCart(produtc){
-            console.log('add produtc' + produtc)
+            //console.log('add produtc' + produtc)
              this.$store.dispatch('addProdutcCart', produtc)
         }
     },
     computed:{
         produtcs(){
             return this.$store.state.produtcs
-        },
-        cart(){
-            return this.$store.getters.produtcCart
         },
     },
     created(){

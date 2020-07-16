@@ -22,11 +22,30 @@
     </v-col>
 
     <v-col cols="2" class="d-flex justify-end">
-      <v-icon color="#000000" dark>mdi-cart</v-icon>
+      <v-badge
+          color="#000000"
+          :content="cartCount"
+        >
+        </v-badge>
+      <v-icon color="#000000" @click.stop="openCart = !openCart" dark>mdi-cart</v-icon>
       <v-btn to="/login" color="#448669" flat>MEMBERS LOGIN</v-btn>
     </v-col>
     
   </v-toolbar>
+  
+  <!-- Cart Items -->
+  <v-navigation-drawer
+      v-model="openCart"
+      temporary
+      absolute
+      width = "300"
+      
+    >
+    
+      <Cart></Cart>
+
+    </v-navigation-drawer>
+    <!-- End Cart Items -->
   
     <v-navigation-drawer
       v-model="drawer"
@@ -64,10 +83,16 @@
 
 <script>
 
+import Cart from './cart'
+
 export default {
+    components: {
+      Cart
+    },
     data() {
     return {
       drawer: null,
+      openCart: null,
       items: [
           { title: 'Products', icon: 'dashboard', url: '/', image: ''},
           { title: 'Home', icon: 'dashboard', url: '/', image: 'https://storage.googleapis.com/wfhq_purelife/redesign/images/logo.png'},
@@ -81,6 +106,11 @@ export default {
     menuItems() {
       return this.menu;
     }
+  },
+  computed: {
+    cartCount(){
+            return this.$store.state.produtcs.cartCount
+    },
   }
 };
 </script>

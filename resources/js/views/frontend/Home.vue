@@ -22,7 +22,7 @@ import Card from './partials/cards'
 export default {
   components: {
       Navbar,
-      Card
+      Card,
   }
 };
 </script>

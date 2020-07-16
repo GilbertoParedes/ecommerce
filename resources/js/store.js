@@ -337,14 +337,49 @@ const users = {
   }
 }
 
+let cart = window.localStorage.getItem('cart');
+let cartCount = window.localStorage.getItem('cartCount');
+
 const  produtcs = {
     state: {
       produtcs: [],
       produtc: [],
-      addCart: [],
+      cart: cart ? JSON.parse(cart) : [],
+      cartCount: cartCount ? parseInt(cartCount) : 0,
+      // cart: [],
+      // cartCount: 0,
       produtcCart: []
     },
     mutations: {
+      SAVE_CART(state) {
+        window.localStorage.setItem('cart', JSON.stringify(state.cart));
+        window.localStorage.setItem('cartCount', state.cartCount);
+      },
+      ADD_TO_CART(state, item){
+        let found = state.cart.find(product => product.id == item.id)
+
+        if(found){
+          found.quantity ++
+          found.totalPrice = found.quantity * found.price
+        }else{
+          state.cart.push(item)
+
+          Vue.set(item, 'quantity', 1)
+          Vue.set(item, 'totalPrice', item.price)
+        }
+
+        state.cartCount++
+        //console.log(item.name)
+      },
+      REMOVE_CART(state, item){
+        let index = state.cart.indexOf(item);
+
+        if(index > -1){
+          let product = state.cart[index]
+          state.cartCount -= product.quantity
+          state.cart.splice(index, 1)
+        }
+      },
       GET_PRODUTC(state, produtcs){
         state.produtcs = produtcs
       },
@@ -352,21 +387,21 @@ const  produtcs = {
         state.produtc = produtc
         
       },
-      ADD_PRODUTC_CART(state, produtc){
-        state.produtcCart.push({
-           name: produtc.name,
-           price: produtc.price
-        })
+      // ADD_PRODUTC_CART(state, produtc){
+      //   state.produtcCart.push({
+      //      name: produtc.name,
+      //      price: produtc.price
+      //   })
         
-        localStorage.setItem('card_produtc', JSON.stringify(state.produtcCart))
+      //   localStorage.setItem('card_produtc', JSON.stringify(state.produtcCart))
 
-        // var saveCart = localStorage.getItem('card_produtc');
+      //   // var saveCart = localStorage.getItem('card_produtc');
 
-        state.addCart = localStorage.getItem('card_produtc')
+      //   state.addCart = localStorage.getItem('card_produtc')
 
         
         
-      }
+      // }
     },
     actions: {
       getProdutcs({commit}){
@@ -406,12 +441,18 @@ const  produtcs = {
               })
           })
       },
-      addProdutcCart({commit}, produtc){
-          commit('ADD_PRODUTC_CART', produtc)
+      addProdutcCart({commit}, item){
+          commit('ADD_TO_CART', item)
+      },
+      removeFromCart({commit}, item){
+          commit("REMOVE_CART", item)
+      },
+      saveCart({commit}){
+          commit("SAVE_CART")
       }
     },
     getters: {
-      produtcCart: state => state.addCart,
+      
     }
 
 }
