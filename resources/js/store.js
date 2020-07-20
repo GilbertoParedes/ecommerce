@@ -346,20 +346,29 @@ const  produtcs = {
       produtc: [],
       cart: cart ? JSON.parse(cart) : [],
       cartCount: cartCount ? parseInt(cartCount) : 0,
-      // cart: [],
-      // cartCount: 0,
       produtcCart: []
     },
     mutations: {
+      PRODUCTS(state, products){
+        state.produtcs = products
+      },
       SAVE_CART(state) {
         window.localStorage.setItem('cart', JSON.stringify(state.cart));
         window.localStorage.setItem('cartCount', state.cartCount);
+      },
+      INCREMENT_CART(state, [item, cant]){
+        let found = state.cart.find(product => product.id == item.id)
+        found.quantity = cant
+        found.totalPrice = found.quantity * found.price
+
+        
+        this.commit("SAVE_CART")
       },
       ADD_TO_CART(state, item){
         let found = state.cart.find(product => product.id == item.id)
 
         if(found){
-          found.quantity ++
+          found.quantity++
           found.totalPrice = found.quantity * found.price
         }else{
           state.cart.push(item)
@@ -392,23 +401,26 @@ const  produtcs = {
         state.produtc = produtc
         
       },
-      // ADD_PRODUTC_CART(state, produtc){
-      //   state.produtcCart.push({
-      //      name: produtc.name,
-      //      price: produtc.price
-      //   })
-        
-      //   localStorage.setItem('card_produtc', JSON.stringify(state.produtcCart))
-
-      //   // var saveCart = localStorage.getItem('card_produtc');
-
-      //   state.addCart = localStorage.getItem('card_produtc')
-
-        
-        
-      // }
     },
     actions: {
+      products({commit}){
+        return new Promise((resolve, reject) => {
+          axios.get('/products', {
+              
+            })
+            .then(response => {
+              console.log(response);
+              let products = response.data
+              commit('PRODUCTS', products)
+  
+              resolve(response)
+            })
+            .catch(error => {
+             
+              reject(error)
+            })
+        })
+      },
       getProdutcs({commit}){
         return new Promise((resolve, reject) => {
           axios.get('/products', {
@@ -445,6 +457,9 @@ const  produtcs = {
                 reject(error)
               })
           })
+      },
+      incrementCArt({commit}, [item, cant]){
+        commit('INCREMENT_CART', [item, cant])
       },
       addProdutcCart({commit}, item){
           commit('ADD_TO_CART', item)

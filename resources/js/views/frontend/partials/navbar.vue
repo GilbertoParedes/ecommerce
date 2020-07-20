@@ -5,7 +5,6 @@
     <v-col cols="2">
       <v-toolbar-title></v-toolbar-title>
     </v-col>
-    
     <!-- <v-spacer></v-spacer> -->
     <v-col class="d-flex justify-space-around">
       <v-toolbar-items 
@@ -22,15 +21,16 @@
     </v-col>
 
     <v-col cols="2" class="d-flex justify-end">
-      <v-badge
+      <!-- <v-btn large @click.stop="openCart = !openCart"> -->
+        <v-badge
           color="#000000"
           :content="cartCount"
         >
         </v-badge>
-      <v-icon color="#000000" @click.stop="openCart = !openCart" dark>mdi-cart</v-icon>
-      <v-btn to="/login" color="#448669" flat>MEMBERS LOGIN</v-btn>
+        <v-icon @click.stop="openCart = true" color="#000000" dark>mdi-cart</v-icon>
+      <!-- </v-btn> -->
+      <v-btn right to="/login" color="#448669" flat>MEMBERS LOGIN</v-btn>
     </v-col>
-    
   </v-toolbar>
   
   <!-- Cart Items -->
@@ -38,12 +38,11 @@
       v-model="openCart"
       temporary
       absolute
-      width = "500"
-      
+      width="500"
     >
     
       <Cart></Cart>
-
+      <v-btn block @click="openCart = false">close</v-btn>
     </v-navigation-drawer>
     <!-- End Cart Items -->
   
@@ -92,7 +91,7 @@ export default {
     data() {
     return {
       drawer: null,
-      openCart: null,
+      openCart: false,
       items: [
           { title: 'Products', icon: 'dashboard', url: '/', image: ''},
           { title: 'Home', icon: 'dashboard', url: '/', image: 'https://storage.googleapis.com/wfhq_purelife/redesign/images/logo.png'},

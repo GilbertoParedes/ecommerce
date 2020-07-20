@@ -23,7 +23,14 @@
         </v-list-item-content>
 
         <v-list-item-content>
-          <v-list-item-title v-text="item.quantity"></v-list-item-title>
+          <v-select
+            item-text="cant"
+            v-model="item.quantity"
+            :items="cant"
+            @input="changeCant(item, $event)"
+          ></v-select>
+          
+          <!-- <v-list-item-title v-text="item.quantity"></v-list-item-title> -->
         </v-list-item-content>
 
         <v-list-item-content>
@@ -35,16 +42,16 @@
         </v-list-item-content>
 
         <v-list-item-icon>
-        <v-btn class="mx-1" @click.prevent="removeFromCart(item)" fab small>
-          <v-icon color="#ff0000">mdi-trash-can</v-icon>
-        </v-btn>
+          <v-icon @click.prevent="removeFromCart(item)" color="#00000">mdi-trash-can</v-icon>
         </v-list-item-icon>
       </v-list-item>
 
       <template>
         <div class="pa-2">
-          <v-btn block>Total: ${{ totalPrice }}</v-btn>
+          <span>Total: ${{ totalPrice }}</span>
+          <v-btn to="/shop/checkout" block>Check Out</v-btn>
         </div>
+        {{selected}}
       </template>
 
     </v-list>
@@ -55,10 +62,23 @@
 
 <script>
 export default {
+    data(){
+      return {
+        cant:[1,2,3,4,5,6,7,8],
+        selected: null
+      }
+    },
     methods: {
         removeFromCart(item) {
             this.$store.dispatch('removeFromCart', item);
         },
+        changeCant(item, event){
+          console.log(event)
+          console.log(item)
+          this.selected = parseInt(event)
+          return this.$store.dispatch('incrementCArt', [item, event])
+          
+        }
     },
     computed: {
         cart(){

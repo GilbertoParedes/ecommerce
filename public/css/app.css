@@ -1,5 +1,17 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
+.login-card {
+  margin-top: 5em;
+}
+
+.main-login {
+  background-color: #27AAE1;
+}
+
+.btn-login {
+  color: #ffffff !important;
+}
+
 .main-navbar {
   background-color: #505050;
 }
@@ -106,6 +118,55 @@
 .buy-more {
   margin-top: 50px;
   color: green;
+}
+
+.shop-table {
+  border: solid 2px #505050 !important;
+}
+
+.chekout-cart {
+  background-color: #ffffff !important;
+  border: solid #3c8162 2px !important;
+}
+
+.cart-title-text {
+  background-color: #3c8162;
+  height: 30px !important;
+  flex-wrap: nowrap !important;
+  border-top-left-radius: initial !important;
+  border-top-right-radius: initial !important;
+  color: #ffffff !important;
+}
+
+.pay-section {
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #F7F7F8;
+  height: 350px;
+}
+
+.btn-coupon {
+  background-color: #808080 !important;
+  color: #ffffff !important;
+}
+
+.btn-pay {
+  background-color: #ffffff !important;
+  color: #3c8162 !important;
+  border: solid #3c8162 2px;
+}
+
+.table-header {
+  background-color: #3c8162;
+  height: 40px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.table-header span {
+  line-height: 45px;
+  color: #ffffff;
+  margin-left: 10px;
 }
 
 /*!

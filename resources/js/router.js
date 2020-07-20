@@ -7,6 +7,7 @@ Vue.use(VueRouter)
 
 // Fontend Pages
 import ShowPodutc from './views/frontend/Produtc'
+import checkOut from './views/frontend/partials/checkout'
 // Pages
 import NotFound from './views/NotFound'
 import Login from './views/Login'
@@ -26,6 +27,11 @@ const router = new VueRouter({
             path: '/shop/produtc/:id/:name',
             name: 'show-produtc',
             component: ShowPodutc,
+        },
+        {
+            path: '/shop/checkout',
+            name: 'checkout-produtc',
+            component: checkOut,
         },
         {
             path: '/',
