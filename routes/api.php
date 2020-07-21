@@ -27,6 +27,6 @@ Route::group(['prefix' => 'auth'], function () {
         // get users
         Route::resource('users', 'Api\UserController');
         // get products
-        Route::get('produtcs', 'Api\ProdutcController@index');
+        Route::resource('produtcs', 'Api\ProdutcController');
     });
 });

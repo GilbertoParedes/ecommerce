@@ -62,7 +62,9 @@ export default {
     Products
   },
   data () {
-      
+      return {
+        
+      }
     },
 };
 </script>

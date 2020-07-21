@@ -265,7 +265,6 @@ const users = {
             reject(error)
           })
       })
-      //todo.completed = !todo.completed
     },
     CLEAR_INPUTS(state){
       var clearInputs = [
@@ -340,17 +339,26 @@ const users = {
 let cart = window.localStorage.getItem('cart');
 let cartCount = window.localStorage.getItem('cartCount');
 
+
 const  produtcs = {
     state: {
       produtcs: [],
       produtc: [],
       cart: cart ? JSON.parse(cart) : [],
       cartCount: cartCount ? parseInt(cartCount) : 0,
-      produtcCart: []
+      produtcCart: [],
+      modal: null
     },
     mutations: {
       PRODUCTS(state, products){
         state.produtcs = products
+      },
+      EDIT_PRODUCT(state, product){
+        state.modal = true
+        state.produtc = product
+      },
+      CLOSE_MODAL(state){
+        state.modal = false
       },
       SAVE_CART(state) {
         window.localStorage.setItem('cart', JSON.stringify(state.cart));
@@ -421,6 +429,12 @@ const  produtcs = {
             })
         })
       },
+      editProduct({commit}, product){
+        commit('EDIT_PRODUCT', product)
+      },
+      closeModal({commit}){
+        commit('CLOSE_MODAL')
+      },
       getProdutcs({commit}){
         return new Promise((resolve, reject) => {
           axios.get('/products', {
@@ -472,7 +486,7 @@ const  produtcs = {
       }
     },
     getters: {
-      
+      activeModal: state => state.modal,
     }
 
 }

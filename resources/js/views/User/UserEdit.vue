@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog = active" persistent max-width="600px">
-      <template v-slot:activator="{ on, attrs }">
+    <v-dialog v-model="active" persistent max-width="600px">
+      <template>
        
       </template>
       <v-card>
@@ -38,8 +38,7 @@
   export default {
     data () {
         return {
-            dialog: false,
-            //user: [],
+            
         }
     },
     methods: {
@@ -64,9 +63,6 @@
         users(){
           return this.$store.getters.users
         }
-        // users(){
-        //   return this.$store.state.user
-        // },
     }
   }
 </script>
