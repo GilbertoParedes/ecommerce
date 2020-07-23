@@ -108,7 +108,7 @@ export default {
   },
   computed: {
     cartCount(){
-            return this.$store.state.produtcs.cartCount
+            return this.$store.state.cart.cartCount
     },
   }
 };

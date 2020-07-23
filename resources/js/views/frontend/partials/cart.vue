@@ -82,10 +82,10 @@ export default {
     },
     computed: {
         cart(){
-            return this.$store.state.produtcs.cart
+            return this.$store.state.cart.cart
         },
         cartCount(){
-            return this.$store.state.produtcs.cartCount
+            return this.$store.state.cart.cartCount
         },
         totalPrice(){
             let total = 0;

@@ -3,7 +3,7 @@
         <v-container>
         <v-row >
             <v-col cols="12" sm="6" md="4" xs="12" 
-                    v-for="produtc in produtcs.produtcs"
+                    v-for="produtc in produtcs"
                     :key="produtc.id">
                 <v-card
                     max-width="344"
@@ -60,11 +60,11 @@ export default {
     },
     computed:{
         produtcs(){
-            return this.$store.state.produtcs
+            return this.$store.state.produtcs.produtcs
         },
     },
     created(){
-        this.$store.dispatch('getProdutcs') // dispatch loading
+        this.$store.dispatch('products') // dispatch loading
     }
 }
 

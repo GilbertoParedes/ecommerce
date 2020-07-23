@@ -336,17 +336,11 @@ const users = {
   }
 }
 
-let cart = window.localStorage.getItem('cart');
-let cartCount = window.localStorage.getItem('cartCount');
-
 
 const  produtcs = {
     state: {
       produtcs: [],
       produtc: [],
-      cart: cart ? JSON.parse(cart) : [],
-      cartCount: cartCount ? parseInt(cartCount) : 0,
-      produtcCart: [],
       modal: null
     },
     mutations: {
@@ -360,51 +354,7 @@ const  produtcs = {
       CLOSE_MODAL(state){
         state.modal = false
       },
-      SAVE_CART(state) {
-        window.localStorage.setItem('cart', JSON.stringify(state.cart));
-        window.localStorage.setItem('cartCount', state.cartCount);
-      },
-      INCREMENT_CART(state, [item, cant]){
-        let found = state.cart.find(product => product.id == item.id)
-        found.quantity = cant
-        found.totalPrice = found.quantity * found.price
 
-        
-        this.commit("SAVE_CART")
-      },
-      ADD_TO_CART(state, item){
-        let found = state.cart.find(product => product.id == item.id)
-
-        if(found){
-          found.quantity++
-          found.totalPrice = found.quantity * found.price
-        }else{
-          state.cart.push(item)
-
-          Vue.set(item, 'quantity', 1)
-          Vue.set(item, 'totalPrice', item.price)
-        }
-
-        state.cartCount++
-        
-        this.commit("SAVE_CART")
-    
-        //console.log(item.name)
-      },
-      REMOVE_CART(state, item){
-        let index = state.cart.indexOf(item);
-
-        if(index > -1){
-          let product = state.cart[index]
-          state.cartCount -= product.quantity
-          state.cart.splice(index, 1)
-        }
-
-        this.commit("SAVE_CART")
-      },
-      GET_PRODUTC(state, produtcs){
-        state.produtcs = produtcs
-      },
       SHOW_PRODUTC(state, produtc){
         state.produtc = produtc
         
@@ -435,24 +385,6 @@ const  produtcs = {
       closeModal({commit}){
         commit('CLOSE_MODAL')
       },
-      getProdutcs({commit}){
-        return new Promise((resolve, reject) => {
-          axios.get('/products', {
-              
-            })
-            .then(response => {
-              console.log(response);
-              var produtcs = response.data
-              commit('GET_PRODUTC', produtcs)
-  
-              resolve(response)
-            })
-            .catch(error => {
-             
-              reject(error)
-            })
-        })
-      },
       showProdutc({commit}, id){
           return new Promise((resolve, reject) => {
             axios.get('/products/' + id, {
@@ -472,18 +404,6 @@ const  produtcs = {
               })
           })
       },
-      incrementCArt({commit}, [item, cant]){
-        commit('INCREMENT_CART', [item, cant])
-      },
-      addProdutcCart({commit}, item){
-          commit('ADD_TO_CART', item)
-      },
-      removeFromCart({commit}, item){
-          commit("REMOVE_CART", item)
-      },
-      saveCart({commit}){
-          commit("SAVE_CART")
-      }
     },
     getters: {
       activeModal: state => state.modal,
@@ -491,11 +411,105 @@ const  produtcs = {
 
 }
 
+let cart = window.localStorage.getItem('cart');
+let cartCount = window.localStorage.getItem('cartCount');
+
+const productCart = {
+  state: {
+    cart: cart ? JSON.parse(cart) : [],
+    cartCount: cartCount ? parseInt(cartCount) : 0,
+    produtcCart: [],
+  },
+  mutations: {
+    GET_PRODUTC(state, produtcs){
+      state.produtcs = produtcs
+    },
+    SAVE_CART(state) {
+      window.localStorage.setItem('cart', JSON.stringify(state.cart));
+      window.localStorage.setItem('cartCount', state.cartCount);
+    },
+    INCREMENT_CART(state, [item, cant]){
+      let found = state.cart.find(product => product.id == item.id)
+      found.quantity = cant
+      found.totalPrice = found.quantity * found.price
+
+      
+      this.commit("SAVE_CART")
+    },
+    ADD_TO_CART(state, item){
+      let found = state.cart.find(product => product.id == item.id)
+
+      if(found){
+        found.quantity++
+        found.totalPrice = found.quantity * found.price
+      }else{
+        state.cart.push(item)
+
+        Vue.set(item, 'quantity', 1)
+        Vue.set(item, 'totalPrice', item.price)
+      }
+
+      state.cartCount++
+      
+      this.commit("SAVE_CART")
+  
+      //console.log(item.name)
+    },
+    REMOVE_CART(state, item){
+      let index = state.cart.indexOf(item);
+
+      if(index > -1){
+        let product = state.cart[index]
+        state.cartCount -= product.quantity
+        state.cart.splice(index, 1)
+      }
+
+      this.commit("SAVE_CART")
+    },
+  },
+  actions: {
+    getProdutcs({commit}){
+      return new Promise((resolve, reject) => {
+        axios.get('/products', {
+            
+          })
+          .then(response => {
+            console.log(response);
+            var produtcs = response.data
+            commit('GET_PRODUTC', produtcs)
+
+            resolve(response)
+          })
+          .catch(error => {
+           
+            reject(error)
+          })
+      })
+    },
+    incrementCArt({commit}, [item, cant]){
+      commit('INCREMENT_CART', [item, cant])
+    },
+    addProdutcCart({commit}, item){
+        commit('ADD_TO_CART', item)
+    },
+    removeFromCart({commit}, item){
+        commit("REMOVE_CART", item)
+    },
+    saveCart({commit}){
+        commit("SAVE_CART")
+    }
+  },
+  getters: {
+
+  }
+}
+
 const store = new Vuex.Store({
     modules: {
       token: token,
       users: users,
       produtcs: produtcs,
+      cart: productCart
     }
   })
   
