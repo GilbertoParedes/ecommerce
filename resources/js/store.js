@@ -341,11 +341,15 @@ const  produtcs = {
     state: {
       produtcs: [],
       produtc: [],
-      modal: null
+      modal: null,
+      addModal: null
     },
     mutations: {
       PRODUCTS(state, products){
         state.produtcs = products
+      },
+      SAVE_PRODUCT(state, product){
+        state.produtc = product
       },
       EDIT_PRODUCT(state, product){
         state.modal = true
@@ -359,6 +363,12 @@ const  produtcs = {
         state.produtc = produtc
         
       },
+      ADD_MODAL(state){
+        state.addModal = true
+      },
+      CLOSE_ADD_MODAL(state){
+        state.addModal = false
+      }
     },
     actions: {
       products({commit}){
@@ -378,6 +388,9 @@ const  produtcs = {
               reject(error)
             })
         })
+      },
+      saveProduct({commit}, product){
+        commit("SAVE_PRODUCT", product)
       },
       editProduct({commit}, product){
         commit('EDIT_PRODUCT', product)
@@ -404,9 +417,15 @@ const  produtcs = {
               })
           })
       },
+      addModal({commit}){
+        commit("ADD_MODAL")
+      },
+      closeAddModal({commit}){
+        commit("CLOSE_ADD_MODAL")
+      }
     },
     getters: {
-      activeModal: state => state.modal,
+      activeModal: state => state.dialog,
     }
 
 }

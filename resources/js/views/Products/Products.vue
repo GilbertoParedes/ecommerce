@@ -1,5 +1,9 @@
 <template>
     <div>
+    <v-row>
+        <v-btn color="blue" @click="addModal()" block>Add Product</v-btn>
+    </v-row>
+    <v-row>
         <v-simple-table fixed-header height="300px">
             <template v-slot:default>
             <thead>
@@ -36,23 +40,30 @@
             </tbody>
             </template>
         </v-simple-table>
+    </v-row>
+        <AddProduct></AddProduct>
         <ProductEdit></ProductEdit>
     </div>
 </template>
 
 <script>
 import ProductEdit from './ProductEdit.vue'
+import AddProduct from './addProduct.vue'
 
 export default {
     components: {
-        ProductEdit
+        ProductEdit,
+        AddProduct,
     },
     data() {
         return {
-
+            
         }
     },
     methods: {
+        addModal(){
+            this.$store.dispatch('addModal')
+        },
         editProduct(product){
             console.log('edit product' + product)
             this.$store.dispatch('editProduct', product)
@@ -64,7 +75,8 @@ export default {
     computed: {
         products(){
             return this.$store.state.produtcs.produtcs
-        }
+        },
+        
     },
     created() {
         this.$store.dispatch('products')

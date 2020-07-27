@@ -65,7 +65,6 @@ export default {
         product(){
             return this.$store.state.produtcs.produtc
         },
-
     }
 }
 </script>

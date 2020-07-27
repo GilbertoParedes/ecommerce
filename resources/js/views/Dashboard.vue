@@ -1,6 +1,5 @@
 <template>
 <div>
-<v-container grid-list-xs>
   <v-card>
     <v-toolbar flat color="primary" dark>
       <v-toolbar-title>User Profile</v-toolbar-title>
@@ -48,7 +47,6 @@
       </v-tab-item>
     </v-tabs>
   </v-card>
-</v-container>
 </div>
 </template>
 
