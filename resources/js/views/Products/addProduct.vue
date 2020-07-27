@@ -26,14 +26,21 @@
                 ></v-textarea>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field outlined label="Price*" v-model="price"></v-text-field>
+                <!-- <v-text-field outlined label="Price*" v-model="price"></v-text-field> -->
+              <v-text-field
+                label="Price"
+                prefix="$"
+                v-model="price"
+              ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-select
                   outlined
-                  :items="['0', '1']"
                   label="Status*"
+                  item-text="status"
+                  item-value="value"
                   v-model="status"
+                  :items="items"
                 ></v-select>
               </v-col>
               <v-col cols="12" sm="6" md="4">
@@ -65,9 +72,22 @@ export default {
             name: '',
             slug: '',
             description: '',
-            price: '',
+            price: '00.00',
             image: '',
-            status: '',
+            status: {
+              status: "inactive",
+              value: "0"
+            },
+            items: [
+              {
+                status: "inactive",
+                value: "0"
+              },
+              {
+                status: "Active",
+                value: "1"
+              }
+            ]
         }
     },
     computed: {
@@ -78,7 +98,7 @@ export default {
            let product
            return product = {
                name: this.name,
-               slug: this.slug,
+               slug: this.generateSlug,
                description: this.description,
                price: this.price,
                image: this.image,
