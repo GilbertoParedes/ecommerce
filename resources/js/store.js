@@ -339,6 +339,7 @@ const users = {
 
 const  produtcs = {
     state: {
+      token: localStorage.getItem('access_token') || null,
       produtcs: [],
       produtc: [],
       modal: null,
@@ -349,7 +350,27 @@ const  produtcs = {
         state.produtcs = products
       },
       SAVE_PRODUCT(state, product){
-        state.produtc = product
+        return new Promise((resolve, reject) => {
+          axios.post('/api/auth/produtcs', product, {
+              headers: { Authorization: "Bearer " + state.token },
+            })
+            .then(response => {
+              console.log(response.data);
+              state.produtc = response.data
+              // state.users.push({
+              //   name: response.data.name,
+              //   email: response.data.email,
+              //   password: response.data.password,
+              //   id: response.data.id
+              //   //completed: false
+              // })
+              resolve(response)
+            })
+            .catch(error => {
+              console.log(error)
+              reject(error)
+            })
+        })
       },
       EDIT_PRODUCT(state, product){
         state.modal = true
